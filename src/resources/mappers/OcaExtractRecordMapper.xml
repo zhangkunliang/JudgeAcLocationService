@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fh.crawler.belongingplaceservice.mybatis.mapper.OcaExtractRecordMapper">
+    <insert id="saveOcaExtractRecord"
+            parameterType="com.fh.crawler.belongingplaceservice.mybatis.entity.OcaExtractRecord">
+        INSERT INTO oca_extract_belong_place_record (extract_name, extract_apptype, extract_date, extract_start_id, extract_end_id,
+                                        extract_total, extract_cost_time, extract_state)
+        VALUES (#{extractName}, #{extractAppType}, #{extractDate}, #{extractStartId}, #{extractEndId}, #{extractTotal},
+                #{extractCostTime}, #{extractState})
+    </insert>
+
+    <select id="getLastExtractEndId" resultType="java.lang.Long">
+        SELECT MAX(extract_end_id) AS lastExtractEndId
+        FROM oca_extract_belong_place_record
+        WHERE extract_name = #{extractName}
+          and extract_apptype = #{extractAppType}
+    </select>
+
+</mapper>

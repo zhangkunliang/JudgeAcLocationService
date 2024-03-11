@@ -1,0 +1,120 @@
+2024-03-11 14:05:49.627-[INFO][main-1]c.f.c.b.BelongingPlaceServiceApplication(55):Starting BelongingPlaceServiceApplication using Java 1.8.0_371 on Desktop-220106 with PID 1436 (D:\liang\code\BelongingPlaceService\target\classes started by Administrator in D:\liang\code\belongingplaceservice)
+2024-03-11 14:05:49.629-[INFO][main-1]c.f.c.b.BelongingPlaceServiceApplication(645):No active profile set, falling back to 1 default profile: "default"
+2024-03-11 14:05:51.221-[INFO][main-1]c.f.c.b.BelongingPlaceServiceApplication(61):Started BelongingPlaceServiceApplication in 1.88 seconds (JVM running for 3.496)
+2024-03-11 14:06:01.093-[INFO][main-1]c.f.c.b.s.BelongingPlaceJudge(133):开始处理数据，数据开始时间：1710128413，数据结束时间：1710137146。
+2024-03-11 14:06:14.607-[INFO][main-1]c.f.c.b.s.BelongingPlaceJudge(175):
+java.lang.NullPointerException: null
+	at com.fh.crawler.belongingplaceservice.service.BelongingPlaceJudge.lambda$handleSolrData$0(BelongingPlaceJudge.java:242) ~[classes/:?]
+	at java.util.ArrayList.forEach(ArrayList.java:1259) ~[?:1.8.0_371]
+	at com.fh.crawler.belongingplaceservice.service.BelongingPlaceJudge.handleSolrData(BelongingPlaceJudge.java:230) ~[classes/:?]
+	at com.fh.crawler.belongingplaceservice.service.BelongingPlaceJudge.loopHandleByUpdateTimeRange(BelongingPlaceJudge.java:164) ~[classes/:?]
+	at com.fh.crawler.belongingplaceservice.service.BelongingPlaceJudge.callBelongingPlaceService(BelongingPlaceJudge.java:90) ~[classes/:?]
+	at com.fh.crawler.belongingplaceservice.service.BelongPlaceJudgeService.runService(BelongPlaceJudgeService.java:37) ~[classes/:?]
+	at com.fh.crawler.belongingplaceservice.BelongingPlaceServiceApplication.main(BelongingPlaceServiceApplication.java:23) ~[classes/:?]
+2024-03-11 14:06:14.630-[INFO][main-1]c.f.c.b.s.BelongingPlaceJudge(213):结束处理数据，数据提取日期：20240311，数据开始时间：1710128413，数据结束时间：1710137146，数据提取总数：1000，数据提取状态：-1，数据提取耗时：13秒。
+2024-03-11 14:06:14.630-[INFO][main-1]c.f.c.b.BelongingPlaceServiceApplication(24):处理完成，开始休眠1小时。
+2024-03-11 14:12:49.421-[INFO][main-1]c.f.c.b.BelongingPlaceServiceApplication(55):Starting BelongingPlaceServiceApplication using Java 1.8.0_371 on Desktop-220106 with PID 9064 (D:\liang\code\BelongingPlaceService\target\classes started by Administrator in D:\liang\code\belongingplaceservice)
+2024-03-11 14:12:49.424-[INFO][main-1]c.f.c.b.BelongingPlaceServiceApplication(645):No active profile set, falling back to 1 default profile: "default"
+2024-03-11 14:12:50.488-[INFO][main-1]c.f.c.b.BelongingPlaceServiceApplication(61):Started BelongingPlaceServiceApplication in 1.355 seconds (JVM running for 2.167)
+2024-03-11 14:13:07.475-[ERROR][main-1]c.f.c.b.s.BelongingPlaceJudge(364):solr查询请求失败
+org.apache.solr.client.solrj.SolrServerException: IOException occurred when talking to server at: http://10.0.5.52:8983/solr/SPX_DATA_PERSONINFO_shard2_replica1
+	at org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:695) ~[solr-solrj-8.8.2.jar:8.8.2 a92a05e195b775b30ca410bc0a26e8e79e7b3bfb - mdrob - 2021-04-06 16:37:18]
+	at org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:266) ~[solr-solrj-8.8.2.jar:8.8.2 a92a05e195b775b30ca410bc0a26e8e79e7b3bfb - mdrob - 2021-04-06 16:37:18]
+	at org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:248) ~[solr-solrj-8.8.2.jar:8.8.2 a92a05e195b775b30ca410bc0a26e8e79e7b3bfb - mdrob - 2021-04-06 16:37:18]
+	at org.apache.solr.client.solrj.SolrRequest.process(SolrRequest.java:214) ~[solr-solrj-8.8.2.jar:8.8.2 a92a05e195b775b30ca410bc0a26e8e79e7b3bfb - mdrob - 2021-04-06 16:37:18]
+	at org.apache.solr.client.solrj.SolrClient.query(SolrClient.java:1003) ~[solr-solrj-8.8.2.jar:8.8.2 a92a05e195b775b30ca410bc0a26e8e79e7b3bfb - mdrob - 2021-04-06 16:37:18]
+	at org.apache.solr.client.solrj.SolrClient.query(SolrClient.java:1018) ~[solr-solrj-8.8.2.jar:8.8.2 a92a05e195b775b30ca410bc0a26e8e79e7b3bfb - mdrob - 2021-04-06 16:37:18]
+	at com.fh.crawler.belongingplaceservice.service.BelongingPlaceJudge.queryUpdateTime(BelongingPlaceJudge.java:350) ~[classes/:?]
+	at com.fh.crawler.belongingplaceservice.service.BelongingPlaceJudge.callBelongingPlaceService(BelongingPlaceJudge.java:81) ~[classes/:?]
+	at com.fh.crawler.belongingplaceservice.service.BelongPlaceJudgeService.runService(BelongPlaceJudgeService.java:37) ~[classes/:?]
+	at com.fh.crawler.belongingplaceservice.BelongingPlaceServiceApplication.main(BelongingPlaceServiceApplication.java:23) ~[classes/:?]
+Caused by: org.apache.http.conn.ConnectTimeoutException: Connect to 10.0.5.52:8983 [/10.0.5.52] failed: connect timed out
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:151) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:571) ~[solr-solrj-8.8.2.jar:8.8.2 a92a05e195b775b30ca410bc0a26e8e79e7b3bfb - mdrob - 2021-04-06 16:37:18]
+	... 9 more
+Caused by: java.net.SocketTimeoutException: connect timed out
+	at java.net.DualStackPlainSocketImpl.waitForConnect(Native Method) ~[?:1.8.0_371]
+	at java.net.DualStackPlainSocketImpl.socketConnect(DualStackPlainSocketImpl.java:81) ~[?:1.8.0_371]
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:476) ~[?:1.8.0_371]
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:218) ~[?:1.8.0_371]
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:200) ~[?:1.8.0_371]
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:162) ~[?:1.8.0_371]
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:394) ~[?:1.8.0_371]
+	at java.net.Socket.connect(Socket.java:606) ~[?:1.8.0_371]
+	at org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:571) ~[solr-solrj-8.8.2.jar:8.8.2 a92a05e195b775b30ca410bc0a26e8e79e7b3bfb - mdrob - 2021-04-06 16:37:18]
+	... 9 more
+2024-03-11 14:13:22.479-[ERROR][main-1]c.f.c.b.s.BelongingPlaceJudge(364):solr查询请求失败
+org.apache.solr.client.solrj.SolrServerException: IOException occurred when talking to server at: http://10.0.5.52:8983/solr/SPX_DATA_PERSONINFO_shard2_replica1
+	at org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:695) ~[solr-solrj-8.8.2.jar:8.8.2 a92a05e195b775b30ca410bc0a26e8e79e7b3bfb - mdrob - 2021-04-06 16:37:18]
+	at org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:266) ~[solr-solrj-8.8.2.jar:8.8.2 a92a05e195b775b30ca410bc0a26e8e79e7b3bfb - mdrob - 2021-04-06 16:37:18]
+	at org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:248) ~[solr-solrj-8.8.2.jar:8.8.2 a92a05e195b775b30ca410bc0a26e8e79e7b3bfb - mdrob - 2021-04-06 16:37:18]
+	at org.apache.solr.client.solrj.SolrRequest.process(SolrRequest.java:214) ~[solr-solrj-8.8.2.jar:8.8.2 a92a05e195b775b30ca410bc0a26e8e79e7b3bfb - mdrob - 2021-04-06 16:37:18]
+	at org.apache.solr.client.solrj.SolrClient.query(SolrClient.java:1003) ~[solr-solrj-8.8.2.jar:8.8.2 a92a05e195b775b30ca410bc0a26e8e79e7b3bfb - mdrob - 2021-04-06 16:37:18]
+	at org.apache.solr.client.solrj.SolrClient.query(SolrClient.java:1018) ~[solr-solrj-8.8.2.jar:8.8.2 a92a05e195b775b30ca410bc0a26e8e79e7b3bfb - mdrob - 2021-04-06 16:37:18]
+	at com.fh.crawler.belongingplaceservice.service.BelongingPlaceJudge.queryUpdateTime(BelongingPlaceJudge.java:350) ~[classes/:?]
+	at com.fh.crawler.belongingplaceservice.service.BelongingPlaceJudge.callBelongingPlaceService(BelongingPlaceJudge.java:81) ~[classes/:?]
+	at com.fh.crawler.belongingplaceservice.service.BelongPlaceJudgeService.runService(BelongPlaceJudgeService.java:37) ~[classes/:?]
+	at com.fh.crawler.belongingplaceservice.BelongingPlaceServiceApplication.main(BelongingPlaceServiceApplication.java:23) ~[classes/:?]
+Caused by: org.apache.http.conn.ConnectTimeoutException: Connect to 10.0.5.52:8983 [/10.0.5.52] failed: connect timed out
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:151) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:571) ~[solr-solrj-8.8.2.jar:8.8.2 a92a05e195b775b30ca410bc0a26e8e79e7b3bfb - mdrob - 2021-04-06 16:37:18]
+	... 9 more
+Caused by: java.net.SocketTimeoutException: connect timed out
+	at java.net.DualStackPlainSocketImpl.waitForConnect(Native Method) ~[?:1.8.0_371]
+	at java.net.DualStackPlainSocketImpl.socketConnect(DualStackPlainSocketImpl.java:81) ~[?:1.8.0_371]
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:476) ~[?:1.8.0_371]
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:218) ~[?:1.8.0_371]
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:200) ~[?:1.8.0_371]
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:162) ~[?:1.8.0_371]
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:394) ~[?:1.8.0_371]
+	at java.net.Socket.connect(Socket.java:606) ~[?:1.8.0_371]
+	at org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56) ~[httpclient-4.5.13.jar:4.5.13]
+	at org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:571) ~[solr-solrj-8.8.2.jar:8.8.2 a92a05e195b775b30ca410bc0a26e8e79e7b3bfb - mdrob - 2021-04-06 16:37:18]
+	... 9 more
+2024-03-11 14:14:21.441-[INFO][main-1]c.f.c.b.BelongingPlaceServiceApplication(55):Starting BelongingPlaceServiceApplication using Java 1.8.0_371 on Desktop-220106 with PID 9904 (D:\liang\code\BelongingPlaceService\target\classes started by Administrator in D:\liang\code\belongingplaceservice)
+2024-03-11 14:14:21.443-[INFO][main-1]c.f.c.b.BelongingPlaceServiceApplication(645):No active profile set, falling back to 1 default profile: "default"
+2024-03-11 14:14:22.530-[INFO][main-1]c.f.c.b.BelongingPlaceServiceApplication(61):Started BelongingPlaceServiceApplication in 1.353 seconds (JVM running for 2.008)
+2024-03-11 14:14:24.509-[INFO][main-1]c.f.c.b.s.BelongingPlaceJudge(84):没有增量数据待处理，退出。
+2024-03-11 14:14:24.509-[INFO][main-1]c.f.c.b.BelongingPlaceServiceApplication(24):处理完成，开始休眠1小时。
+2024-03-11 15:14:24.510-[INFO][main-1]c.f.c.b.BelongingPlaceServiceApplication(26):结束休眠1小时。
+2024-03-11 15:14:56.873-[INFO][main-1]c.f.c.b.s.BelongingPlaceJudge(84):没有增量数据待处理，退出。
+2024-03-11 15:14:56.874-[INFO][main-1]c.f.c.b.BelongingPlaceServiceApplication(24):处理完成，开始休眠1小时。
