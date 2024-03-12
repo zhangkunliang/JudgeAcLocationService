@@ -10,8 +10,6 @@ import com.fh.crawler.belongingplaceservice.constant.CommonConstant;
 import com.fh.crawler.belongingplaceservice.constant.Numconstant;
 import com.fh.crawler.belongingplaceservice.mybatis.entity.OcaExtractRecord;
 import com.fh.crawler.belongingplaceservice.mybatis.mapper.OcaExtractRecordMapper;
-import com.fh.crawler.belongingplaceservice.mybatis.mapper.OcaExtractRecordWeiboMapper;
-import com.fh.crawler.belongingplaceservice.mybatis.mapper.OcaExtractRecordWemediaMapper;
 import com.fh.crawler.belongingplaceservice.util.DateUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -42,10 +40,6 @@ public class BelongingPlaceJudge {
     private String areaCodeBaseUrl;
     @Autowired
     private OcaExtractRecordMapper ocaExtractRecordMapper;
-    @Autowired
-    private OcaExtractRecordWeiboMapper ocaExtractRecordWeiboMapper;
-    @Autowired
-    private OcaExtractRecordWemediaMapper ocaExtractRecordWemediaMapper;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BelongingPlaceJudge.class);
 
@@ -112,10 +106,10 @@ public class BelongingPlaceJudge {
             return ocaExtractRecordMapper.getLastExtractEndId(CommonConstant.OCA_EXTRACT_RECORD_NAME_PERSONINFO, appType);
         } else if (url.contains("WEIBO")) {
             //微博
-            return ocaExtractRecordWeiboMapper.getLastExtractWeiboEndId(CommonConstant.OCA_EXTRACT_RECORD_NAME_WEIBO, appType);
+            return ocaExtractRecordMapper.getLastExtractWeiboEndId(CommonConstant.OCA_EXTRACT_RECORD_NAME_WEIBO, appType);
         } else if (url.contains("wemedia")) {
             // 多媒体
-            return ocaExtractRecordWemediaMapper.getLastExtractEndIdWemedia(CommonConstant.OCA_EXTRACT_RECORD_NAME_WEMEDIA, appType);
+            return ocaExtractRecordMapper.getLastExtractEndIdWemedia(CommonConstant.OCA_EXTRACT_RECORD_NAME_WEMEDIA, appType);
         }
         return null;
     }
@@ -203,10 +197,10 @@ public class BelongingPlaceJudge {
             count = ocaExtractRecordMapper.saveOcaExtractRecord(ocaExtractRecord);
         } else if (url.contains("WEIBO")) {
             //微博
-            count = ocaExtractRecordWeiboMapper.saveOcaExtractWeiboRecord(ocaExtractRecord);
+            count = ocaExtractRecordMapper.saveOcaExtractWeiboRecord(ocaExtractRecord);
         } else if (url.contains("wemedia")) {
             // 多媒体
-            count = ocaExtractRecordWemediaMapper.saveOcaExtractRecordWemedia(ocaExtractRecord);
+            count = ocaExtractRecordMapper.saveOcaExtractRecordWemedia(ocaExtractRecord);
         }
         if (count <= 0) {
             LOGGER.error("保存本次提取记录异常,{}", ocaExtractRecord);
