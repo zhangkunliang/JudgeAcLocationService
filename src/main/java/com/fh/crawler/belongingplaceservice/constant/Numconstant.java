@@ -1,6 +1,10 @@
 package com.fh.crawler.belongingplaceservice.constant;
 
 public class Numconstant {
+    private Numconstant() {
+        // 构造方法
+    }
+
     public static final int N_0 = 0;
     public static final int N_1 = 1;
     public static final int N_2 = 2;

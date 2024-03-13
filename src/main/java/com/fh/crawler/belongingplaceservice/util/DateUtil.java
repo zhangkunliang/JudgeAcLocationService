@@ -9,6 +9,9 @@ import java.time.format.DateTimeFormatter;
 
 
 public class DateUtil {
+    private DateUtil(){
+        // 构造方法
+    }
     public static String parseLongToDate(Long timestamp) {
         if (timestamp == null) {
             return null;

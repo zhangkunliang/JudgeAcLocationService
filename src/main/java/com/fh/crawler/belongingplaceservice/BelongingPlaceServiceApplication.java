@@ -2,7 +2,6 @@ package com.fh.crawler.belongingplaceservice;
 
 import com.fh.belonging.util.MsisdnUtil;
 import com.fh.crawler.belongingplaceservice.service.BelongPlaceJudgeService;
-import com.fh.crawler.belongingplaceservice.service.BelongingPlaceJudge;
 import com.fh.crawler.belongingplaceservice.util.CommonUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -13,8 +13,32 @@ public class SolrConfig {
     @Value("${solr.overs.fields}")
     private String oversFields;
 
+    @Value("${overs.host}")
+    private String oversSolrHost;
+
+    public String getOversFields() {
+        return oversFields;
+    }
+
+
+    public String getOversSolrHost() {
+        return oversSolrHost;
+    }
+
+    @Bean
+    public SolrClient oversSolrClient() {
+        return new HttpSolrClient.Builder(oversSolrHost).build();
+    }
+
+    @Bean
+    public SolrTemplate oversSolrTemplate(SolrClient oversSolrClient) {
+        return new SolrTemplate(oversSolrClient);
+    }
+
+
     @Value("${solr.weibo.fields}")
     private String weiboFields;
+
     @Value("${weibo.host}")
     private String weiboSolrHost;
 
@@ -26,7 +50,6 @@ public class SolrConfig {
         return weiboSolrHost;
     }
 
-    // 配置第二个Solr库
     @Bean
     public SolrClient weiboSolrClient() {
         return new HttpSolrClient.Builder(weiboSolrHost).build();
@@ -58,29 +81,6 @@ public class SolrConfig {
     @Bean
     public SolrTemplate mediaSolrTemplate(SolrClient mediaSolrClient) {
         return new SolrTemplate(mediaSolrClient);
-    }
-
-    @Value("${overs.host}")
-    private String oversSolrHost;
-
-
-    public String getOversFields() {
-        return oversFields;
-    }
-
-
-    public String getOversSolrHost() {
-        return oversSolrHost;
-    }
-
-    @Bean
-    public SolrClient oversSolrClient() {
-        return new HttpSolrClient.Builder(oversSolrHost).build();
-    }
-
-    @Bean
-    public SolrTemplate oversSolrTemplate(SolrClient oversSolrClient) {
-        return new SolrTemplate(oversSolrClient);
     }
 
 
