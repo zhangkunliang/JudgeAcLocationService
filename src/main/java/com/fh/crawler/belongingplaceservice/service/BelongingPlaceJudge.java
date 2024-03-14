@@ -215,7 +215,7 @@ public class BelongingPlaceJudge {
      * @param solrTemplate
      * @param url
      */
-    private void handleSolrData(SolrDocumentList solrDocumentList, SolrTemplate solrTemplate, String url) {
+    public void handleSolrData(SolrDocumentList solrDocumentList, SolrTemplate solrTemplate, String url) {
         int solrDocumentListSize = solrDocumentList.size();
         if (solrDocumentListSize <= 0) return;
         // solr境外库
@@ -234,15 +234,25 @@ public class BelongingPlaceJudge {
             SolrFields solrFields = new SolrFields();
             // 封装solrFields类
             if (url.contains(CommonConstant.SPX_DATA_PERSONINFO)) {
-                if (StringUtils.isNotBlank(solrDocument.getFieldValue(CommonConstant.MOBILE_PHONE).toString())) {
+                if (solrDocument.getFieldValue(CommonConstant.MOBILE_PHONE) != null) {
                     areaCodeByPhone = MsisdnUtil.getAreacodeByPhone(solrDocument.getFieldValue(CommonConstant.MOBILE_PHONE).toString());
                     solrInputDocument.addField(CommonConstant.TELEPHONE_AREA_CODE_S, buildSolrFieldMap(areaCodeByPhone));
                 }
-                solrFields.setMobilePhone(solrDocument.getFieldValue(CommonConstant.MOBILE_PHONE).toString());
-                solrFields.setIntroduction(solrDocument.getFieldValue("INTRODUCTION").toString());
-                solrFields.setHomeTown(solrDocument.getFieldValue("NATIVE_PLACE").toString());
-                solrFields.setResidence(solrDocument.getFieldValue("RESIDENCE").toString());
-                solrFields.setSignature(solrDocument.getFieldValue("SIGNATURE").toString());
+                if (solrDocument.getFieldValue(CommonConstant.MOBILE_PHONE)!=null){
+                    solrFields.setMobilePhone(solrDocument.getFieldValue(CommonConstant.MOBILE_PHONE).toString());
+                }
+                if (solrDocument.getFieldValue("INTRODUCTION")!=null){
+                    solrFields.setIntroduction(solrDocument.getFieldValue("INTRODUCTION").toString());
+                }
+                if (solrDocument.getFieldValue("NATIVE_PLACE")!=null){
+                    solrFields.setHomeTown(solrDocument.getFieldValue("NATIVE_PLACE").toString());
+                }
+                if (solrDocument.getFieldValue("RESIDENCE")!=null){
+                    solrFields.setResidence(solrDocument.getFieldValue("RESIDENCE").toString());
+                }
+                if (solrDocument.getFieldValue("SIGNATURE")!=null){
+                    solrFields.setSignature(solrDocument.getFieldValue("SIGNATURE").toString());
+                }
             } else if (url.contains(CommonConstant.WEIBO)) {
                 // 存在无telephone_l字段的记录
                 if (solrDocument.getFieldValue(CommonConstant.TELEPHONE_L) != null) {
@@ -291,7 +301,7 @@ public class BelongingPlaceJudge {
         if (!solrInputDocumentList.isEmpty()) {
             UpdateBySolrInputDocument(solrInputDocumentList, solrTemplate);
         }
-        LOGGER.info("solrInputDocumentList大小:{}",solrInputDocumentList.size());
+        LOGGER.info("solrInputDocumentList大小:{}", solrInputDocumentList.size());
     }
 
     /**
@@ -304,7 +314,7 @@ public class BelongingPlaceJudge {
     private UpdateResponse UpdateBySolrInputDocument(List<SolrInputDocument> solrInputDocumentList, SolrTemplate solrTemplate) {
         for (int count = 0; count < Numconstant.N_3; count++) {
             try {
-                LOGGER.info("{}","更新成功");
+                LOGGER.info("{}", "更新成功");
                 return solrTemplate.getSolrClient().add(solrInputDocumentList);
             } catch (Exception e) {
                 LOGGER.error("solr更新请求失败", e);
@@ -337,7 +347,7 @@ public class BelongingPlaceJudge {
      */
     private Long queryUpdateTime(String appType, SolrQuery.ORDER order, SolrTemplate solrTemplate, String fields) {
         SolrQuery solrQuery = new SolrQuery(formatSolrQuery(appType, fields));
-        LOGGER.info("solrQuery:{}",solrQuery);
+        LOGGER.info("solrQuery:{}", solrQuery);
         solrQuery.setSort(judgeUpdateTimeSolrType(fields), order);
         solrQuery.setRows(Numconstant.N_1);
         for (int count = 0; count < Numconstant.N_3; count++) {
@@ -372,6 +382,7 @@ public class BelongingPlaceJudge {
         String upt = "";
         String solrFlag = fields.split(",")[0];
         switch (solrFlag) {
+            default:
             case CommonConstant.MOBILE_PHONE:
                 upt = "UPDATE_TIME";
                 break;

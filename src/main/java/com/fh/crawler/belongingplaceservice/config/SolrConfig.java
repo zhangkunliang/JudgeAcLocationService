@@ -9,7 +9,6 @@ import org.springframework.data.solr.core.SolrTemplate;
 
 @Configuration
 public class SolrConfig {
-
     @Value("${solr.overs.fields}")
     private String oversFields;
 
@@ -81,6 +80,33 @@ public class SolrConfig {
     @Bean
     public SolrTemplate mediaSolrTemplate(SolrClient mediaSolrClient) {
         return new SolrTemplate(mediaSolrClient);
+    }
+
+    @Value("${source.solr.url}")
+    private String sourceSolrUrl;
+
+    @Bean
+    public SolrClient sourceSolrClient() {
+        return new HttpSolrClient.Builder(sourceSolrUrl).build();
+    }
+
+    @Bean
+    public SolrTemplate sourceSolrTemplate(SolrClient sourceSolrClient) {
+        return new SolrTemplate(sourceSolrClient);
+    }
+
+
+    @Value("${destination.solr.url}")
+    private String destinationSolrUrl;
+
+    @Bean
+    public SolrClient destinationSolrClient() {
+        return new HttpSolrClient.Builder(destinationSolrUrl).build();
+    }
+
+    @Bean
+    public SolrTemplate destinationSolrTemplate(SolrClient destinationSolrClient) {
+        return new SolrTemplate(destinationSolrClient);
     }
 
 
