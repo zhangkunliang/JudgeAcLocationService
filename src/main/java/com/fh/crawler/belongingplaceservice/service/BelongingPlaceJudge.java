@@ -10,8 +10,6 @@ import com.fh.crawler.belongingplaceservice.constant.CommonConstant;
 import com.fh.crawler.belongingplaceservice.constant.Numconstant;
 import com.fh.crawler.belongingplaceservice.mybatis.entity.OcaExtractRecord;
 import com.fh.crawler.belongingplaceservice.mybatis.mapper.OcaExtractRecordMapper;
-import com.fh.crawler.belongingplaceservice.mybatis.mapper.OcaExtractRecordWeiboMapper;
-import com.fh.crawler.belongingplaceservice.mybatis.mapper.OcaExtractRecordWemediaMapper;
 import com.fh.crawler.belongingplaceservice.util.DateUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -42,10 +40,6 @@ public class BelongingPlaceJudge {
     private String areaCodeBaseUrl;
     @Autowired
     private OcaExtractRecordMapper ocaExtractRecordMapper;
-    @Autowired
-    private OcaExtractRecordWeiboMapper ocaExtractRecordWeiboMapper;
-    @Autowired
-    private OcaExtractRecordWemediaMapper ocaExtractRecordWemediaMapper;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BelongingPlaceJudge.class);
 
@@ -108,14 +102,14 @@ public class BelongingPlaceJudge {
      */
     private Long getStartIdBasedOnUrl(String url, String appType) {
         // 境外
-        if (url.contains("SPX_DATA_PERSONINFO")) {
+        if (url.contains(CommonConstant.SPX_DATA_PERSONINFO)) {
             return ocaExtractRecordMapper.getLastExtractEndId(CommonConstant.OCA_EXTRACT_RECORD_NAME_PERSONINFO, appType);
-        } else if (url.contains("WEIBO")) {
+        } else if (url.contains(CommonConstant.WEIBO)) {
             //微博
-            return ocaExtractRecordWeiboMapper.getLastExtractWeiboEndId(CommonConstant.OCA_EXTRACT_RECORD_NAME_WEIBO, appType);
-        } else if (url.contains("wemedia")) {
+            return ocaExtractRecordMapper.getLastExtractWeiboEndId(CommonConstant.OCA_EXTRACT_RECORD_NAME_WEIBO, appType);
+        } else if (url.contains(CommonConstant.WEMEDIA)) {
             // 多媒体
-            return ocaExtractRecordWemediaMapper.getLastExtractEndIdWemedia(CommonConstant.OCA_EXTRACT_RECORD_NAME_WEMEDIA, appType);
+            return ocaExtractRecordMapper.getLastExtractEndIdWemedia(CommonConstant.OCA_EXTRACT_RECORD_NAME_WEMEDIA, appType);
         }
         return null;
     }
@@ -179,12 +173,12 @@ public class BelongingPlaceJudge {
         //保存本次提取记录
         OcaExtractRecord ocaExtractRecord = new OcaExtractRecord();
         // 境外
-        if (url.contains("SPX_DATA_PERSONINFO")) {
+        if (url.contains(CommonConstant.SPX_DATA_PERSONINFO)) {
             ocaExtractRecord.setExtractName(CommonConstant.OCA_EXTRACT_RECORD_NAME_PERSONINFO);
-        } else if (url.contains("WEIBO")) {
+        } else if (url.contains(CommonConstant.WEIBO)) {
             //微博
             ocaExtractRecord.setExtractName(CommonConstant.OCA_EXTRACT_RECORD_NAME_WEIBO);
-        } else if (url.contains("wemedia")) {
+        } else if (url.contains(CommonConstant.WEMEDIA)) {
             // 多媒体
             ocaExtractRecord.setExtractName(CommonConstant.OCA_EXTRACT_RECORD_NAME_WEMEDIA);
         }
@@ -199,14 +193,14 @@ public class BelongingPlaceJudge {
         ocaExtractRecord.setExtractCostTime(extractCostTime);
         // 境外
         int count = 0;
-        if (url.contains("SPX_DATA_PERSONINFO")) {
+        if (url.contains(CommonConstant.SPX_DATA_PERSONINFO)) {
             count = ocaExtractRecordMapper.saveOcaExtractRecord(ocaExtractRecord);
-        } else if (url.contains("WEIBO")) {
+        } else if (url.contains(CommonConstant.WEIBO)) {
             //微博
-            count = ocaExtractRecordWeiboMapper.saveOcaExtractWeiboRecord(ocaExtractRecord);
-        } else if (url.contains("wemedia")) {
+            count = ocaExtractRecordMapper.saveOcaExtractWeiboRecord(ocaExtractRecord);
+        } else if (url.contains(CommonConstant.WEMEDIA)) {
             // 多媒体
-            count = ocaExtractRecordWemediaMapper.saveOcaExtractRecordWemedia(ocaExtractRecord);
+            count = ocaExtractRecordMapper.saveOcaExtractRecordWemedia(ocaExtractRecord);
         }
         if (count <= 0) {
             LOGGER.error("保存本次提取记录异常,{}", ocaExtractRecord);
@@ -221,9 +215,9 @@ public class BelongingPlaceJudge {
      * @param solrTemplate
      * @param url
      */
-    private void handleSolrData(SolrDocumentList solrDocumentList, SolrTemplate solrTemplate, String url) {
-        int solrDocumentList_size = solrDocumentList.size();
-        if (solrDocumentList_size <= 0) return;
+    public void handleSolrData(SolrDocumentList solrDocumentList, SolrTemplate solrTemplate, String url) {
+        int solrDocumentListSize = solrDocumentList.size();
+        if (solrDocumentListSize <= 0) return;
         // solr境外库
         List<SolrInputDocument> solrInputDocumentList = new ArrayList<>();
         // 取出每个solrDocument对象的字段值并更新
@@ -239,22 +233,32 @@ public class BelongingPlaceJudge {
             // 根据solrFields和地区打标服务url获取地区信息
             SolrFields solrFields = new SolrFields();
             // 封装solrFields类
-            if (url.contains("SPX_DATA_PERSONINFO")) {
-                if (StringUtils.isNotBlank(solrDocument.getFieldValue("MOBILEPHONE").toString())) {
-                    areaCodeByPhone = MsisdnUtil.getAreacodeByPhone(solrDocument.getFieldValue("MOBILEPHONE").toString());
-                    solrInputDocument.addField("telephoneareacode_s", buildSolrFieldMap(areaCodeByPhone));
+            if (url.contains(CommonConstant.SPX_DATA_PERSONINFO)) {
+                if (solrDocument.getFieldValue(CommonConstant.MOBILE_PHONE) != null) {
+                    areaCodeByPhone = MsisdnUtil.getAreacodeByPhone(solrDocument.getFieldValue(CommonConstant.MOBILE_PHONE).toString());
+                    solrInputDocument.addField(CommonConstant.TELEPHONE_AREA_CODE_S, buildSolrFieldMap(areaCodeByPhone));
                 }
-                solrFields.setMobilePhone(solrDocument.getFieldValue("MOBILEPHONE").toString());
-                solrFields.setIntroduction(solrDocument.getFieldValue("INTRODUCTION").toString());
-                solrFields.setHomeTown(solrDocument.getFieldValue("NATIVE_PLACE").toString());
-                solrFields.setResidence(solrDocument.getFieldValue("RESIDENCE").toString());
-                solrFields.setSignature(solrDocument.getFieldValue("SIGNATURE").toString());
-            } else if (url.contains("WEIBO")) {
+                if (solrDocument.getFieldValue(CommonConstant.MOBILE_PHONE)!=null){
+                    solrFields.setMobilePhone(solrDocument.getFieldValue(CommonConstant.MOBILE_PHONE).toString());
+                }
+                if (solrDocument.getFieldValue("INTRODUCTION")!=null){
+                    solrFields.setIntroduction(solrDocument.getFieldValue("INTRODUCTION").toString());
+                }
+                if (solrDocument.getFieldValue("NATIVE_PLACE")!=null){
+                    solrFields.setHomeTown(solrDocument.getFieldValue("NATIVE_PLACE").toString());
+                }
+                if (solrDocument.getFieldValue("RESIDENCE")!=null){
+                    solrFields.setResidence(solrDocument.getFieldValue("RESIDENCE").toString());
+                }
+                if (solrDocument.getFieldValue("SIGNATURE")!=null){
+                    solrFields.setSignature(solrDocument.getFieldValue("SIGNATURE").toString());
+                }
+            } else if (url.contains(CommonConstant.WEIBO)) {
                 // 存在无telephone_l字段的记录
-                if (solrDocument.getFieldValue("telephone_l") != null) {
-                    areaCodeByPhone = MsisdnUtil.getAreacodeByPhone(solrDocument.getFieldValue("telephone_l").toString());
-                    solrInputDocument.addField("telephoneareacode_s", buildSolrFieldMap(areaCodeByPhone));
-                    solrFields.setMobilePhone(solrDocument.getFieldValue("telephone_l").toString());
+                if (solrDocument.getFieldValue(CommonConstant.TELEPHONE_L) != null) {
+                    areaCodeByPhone = MsisdnUtil.getAreacodeByPhone(solrDocument.getFieldValue(CommonConstant.TELEPHONE_L).toString());
+                    solrInputDocument.addField(CommonConstant.TELEPHONE_AREA_CODE_S, buildSolrFieldMap(areaCodeByPhone));
+                    solrFields.setMobilePhone(solrDocument.getFieldValue(CommonConstant.TELEPHONE_L).toString());
                 }
                 if (solrDocument.getFieldValue("briefintro") != null) {
                     solrFields.setIntroduction(solrDocument.getFieldValue("briefintro").toString());
@@ -262,11 +266,11 @@ public class BelongingPlaceJudge {
                 if (solrDocument.getFieldValue("address") != null) {
                     solrFields.setHomeTown(solrDocument.getFieldValue("address").toString());
                 }
-            } else if (url.contains("wemedia")) {
-                if (solrDocument.getFieldValue("telephone") != null) {
-                    areaCodeByPhone = MsisdnUtil.getAreacodeByPhone(solrDocument.getFieldValue("telephone").toString());
-                    solrInputDocument.addField("telephoneareacode_s", buildSolrFieldMap(areaCodeByPhone));
-                    solrFields.setMobilePhone(solrDocument.getFieldValue("telephone").toString());
+            } else if (url.contains(CommonConstant.WEMEDIA)) {
+                if (solrDocument.getFieldValue(CommonConstant.TELEPHONE) != null) {
+                    areaCodeByPhone = MsisdnUtil.getAreacodeByPhone(solrDocument.getFieldValue(CommonConstant.TELEPHONE).toString());
+                    solrInputDocument.addField(CommonConstant.TELEPHONE_AREA_CODE_S, buildSolrFieldMap(areaCodeByPhone));
+                    solrFields.setMobilePhone(solrDocument.getFieldValue(CommonConstant.TELEPHONE).toString());
                 }
                 if (solrDocument.getFieldValue("describe") != null) {
                     solrFields.setIntroduction(solrDocument.getFieldValue("describe").toString());
@@ -279,25 +283,26 @@ public class BelongingPlaceJudge {
                     solrFields.setResidence(solrDocument.getFieldValue("location").toString());
                 }
 
+
             }
 
             //根据居住地或者家乡获取地区编码
             AreaInfo areaInfo = BelongPlaceUtil.dealBelongPlace(solrFields, areaCodeBaseUrl);
-            if (areaInfo.getAreaCodes().size() > 0 || areaInfo.getFieldInfos().size() > 0) {
+            if (!areaInfo.getAreaCodes().isEmpty() || !areaInfo.getFieldInfos().isEmpty()) {
                 solrInputDocument.addField("belongplace_ss", buildSolrFieldMap(areaInfo.areaCodes));  //打标地区编码
                 solrInputDocument.addField("belongfield_ss", buildSolrFieldMap(areaInfo.fieldInfos)); //打标使用字段
                 LOGGER.info("solrFields={}", JSON.toJSONString(solrFields));
                 LOGGER.info("solrInputDocument={}", solrInputDocument);
             }
-            if (solrInputDocument.getFieldValue("telephoneareacode_s") != null
-                    || areaInfo.getAreaCodes().size() > 0 || areaInfo.getFieldInfos().size() > 0) {
+            if (solrInputDocument.getFieldValue(CommonConstant.TELEPHONE_AREA_CODE_S) != null
+                    || !areaInfo.getAreaCodes().isEmpty() || !areaInfo.getFieldInfos().isEmpty()) {
                 solrInputDocumentList.add(solrInputDocument);
             }
         });
-        if (solrInputDocumentList.size() > 0) {
+        if (!solrInputDocumentList.isEmpty()) {
             UpdateBySolrInputDocument(solrInputDocumentList, solrTemplate);
         }
-        System.out.println("solrInputDocumentList大小" + solrInputDocumentList.size());
+        LOGGER.info("solrInputDocumentList大小:{}", solrInputDocumentList.size());
     }
 
     /**
@@ -310,7 +315,7 @@ public class BelongingPlaceJudge {
     private UpdateResponse UpdateBySolrInputDocument(List<SolrInputDocument> solrInputDocumentList, SolrTemplate solrTemplate) {
         for (int count = 0; count < Numconstant.N_3; count++) {
             try {
-                System.out.println("更新成功");
+                LOGGER.info("{}", "更新成功");
                 return solrTemplate.getSolrClient().add(solrInputDocumentList);
             } catch (Exception e) {
                 LOGGER.error("solr更新请求失败", e);
@@ -343,7 +348,7 @@ public class BelongingPlaceJudge {
      */
     private Long queryUpdateTime(String appType, SolrQuery.ORDER order, SolrTemplate solrTemplate, String fields) {
         SolrQuery solrQuery = new SolrQuery(formatSolrQuery(appType, fields));
-        System.out.println(solrQuery);
+        LOGGER.info("solrQuery:{}", solrQuery);
         solrQuery.setSort(judgeUpdateTimeSolrType(fields), order);
         solrQuery.setRows(Numconstant.N_1);
         for (int count = 0; count < Numconstant.N_3; count++) {
@@ -354,9 +359,9 @@ public class BelongingPlaceJudge {
                     return null;
                 }
                 // 微博库中有的记录没有updatetime字段
-                for (int i = 0; i < solrDocumentList.size(); i++) {
-                    if (solrDocumentList.get(i).containsKey(judgeUpdateTimeSolrType(fields))) {
-                        return Long.parseLong(solrDocumentList.get(i).getFieldValue(judgeUpdateTimeSolrType(fields)).toString());
+                for (org.apache.solr.common.SolrDocument entries : solrDocumentList) {
+                    if (entries.containsKey(judgeUpdateTimeSolrType(fields))) {
+                        return Long.parseLong(entries.getFieldValue(judgeUpdateTimeSolrType(fields)).toString());
                     }
                 }
                 return null;
@@ -378,13 +383,14 @@ public class BelongingPlaceJudge {
         String upt = "";
         String solrFlag = fields.split(",")[0];
         switch (solrFlag) {
-            case "MOBILEPHONE":
+            default:
+            case CommonConstant.MOBILE_PHONE:
                 upt = "UPDATE_TIME";
                 break;
-            case "telephone_l":
+            case CommonConstant.TELEPHONE_L:
                 upt = "nextupdatetime";
                 break;
-            case "telephone":
+            case CommonConstant.TELEPHONE:
                 upt = "updatetime";
                 break;
         }
@@ -434,12 +440,13 @@ public class BelongingPlaceJudge {
     private String formatSolrQuery(String appType, String fields) {
         StringBuilder queryBuilder = new StringBuilder();
         // 微博类型手机号为long类型
-        if (fields.contains("telephone_l")) {
+        if (fields.contains(CommonConstant.TELEPHONE_L)) {
             queryBuilder.append("(telephone_l:[0 TO *] OR briefintro:* " +
                     "OR address:*)");
-        } else if (fields.contains("MOBILEPHONE")) {
-            queryBuilder.append("(MOBILEPHONE:[\"\" TO *] OR NATIVE_PLACE:[\"\" TO *] " +
-                    "OR INTRODUCTION:* OR RESIDENCE:* OR SIGNATURE:*)");
+        } else if (fields.contains(CommonConstant.MOBILE_PHONE)) {
+            queryBuilder.append("(RESIDENCE:* AND (NATIVE_PLACE:[\"\" TO *] " +
+                    "OR INTRODUCTION:* OR SIGNATURE:*))");
+//            queryBuilder.append("(MOBILEPHONE:[\"\" TO *])");
         } else if (fields.contains("telephone")) {
             queryBuilder.append("(telephone:[\"\" TO *] OR describe:* " +
                     "OR ipArea:* OR location:*)");

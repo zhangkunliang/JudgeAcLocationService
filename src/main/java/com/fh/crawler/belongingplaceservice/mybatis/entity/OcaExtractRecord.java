@@ -1,10 +1,5 @@
 package com.fh.crawler.belongingplaceservice.mybatis.entity;
 
-/**
- * @author: X5521
- * @date: 2024/1/19
- * @description:
- */
 public class OcaExtractRecord {
     private Long id;
     private String extractName;

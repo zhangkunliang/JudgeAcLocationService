@@ -11,5 +11,12 @@ public interface OcaExtractRecordMapper {
 
     Long getLastExtractEndId(@Param("extractName") String extractName, @Param("extractAppType") String extractAppType);
 
+    int saveOcaExtractWeiboRecord(OcaExtractRecord ocaExtractRecord);
+
+    Long getLastExtractWeiboEndId(@Param("extractName") String extractName, @Param("extractAppType") String extractAppType);
+
+    int saveOcaExtractRecordWemedia(OcaExtractRecord ocaExtractRecord);
+
+    Long getLastExtractEndIdWemedia(@Param("extractName") String extractName, @Param("extractAppType") String extractAppType);
 
 }
