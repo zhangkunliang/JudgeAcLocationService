@@ -78,7 +78,7 @@ public class BelongingPlaceServiceApplicationTests {
         //游标必须指定id排序，同一天内更新时间不强制有序
         solrQuery.setSort("id", SolrQuery.ORDER.asc);
         solrQuery.setRows(Numconstant.N_1000);
-        solrQuery.setFields("id,APPTYPE,MOBILEPHONE,NATIVE_PLACE,INTRODUCTION,RESIDENCE,SIGNATURE,telephone_l,briefintro,address,UPDATE_TIME,updatetime,nextupdatetime,telephone,describe,ipArea,location");
+        solrQuery.setFields("id,APPTYPE,MOBILEPHONE,NATIVE_PLACE,INTRODUCTION,RESIDENCE,SIGNATURE,telephone_l,briefintro,address,UPDATE_TIME,lastupdatetime,nextupdatetime,telephone,describe,ipArea,location");
         // 游标分页（cursorMark）特性进行数据遍历
         String cursorMark = CursorMarkParams.CURSOR_MARK_START;
         boolean done = false;
@@ -109,9 +109,8 @@ public class BelongingPlaceServiceApplicationTests {
 
     @Test
     void testRedisUtil() {
-//        solrToRedisUtil.syncIdsToRedis(oversSolrTemplate, redisTemplate);
-        redisTemplate.opsForValue().set("id","");
-
+        solrToRedisUtil.syncIdsToRedis(oversSolrTemplate, redisTemplate);
+//        redisTemplate.opsForValue().set("00216e99d1e10238d096be915b188cf0","");
     }
 
 }

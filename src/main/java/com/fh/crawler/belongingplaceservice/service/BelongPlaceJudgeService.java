@@ -27,7 +27,7 @@ public class BelongPlaceJudgeService {
     private SolrTemplate mediaSolrTemplate;
 
     public boolean runService() {
-        return belongingPlaceJudge.callBelongingPlaceService(oversSolrTemplate, solrConfig.getOversFields(), solrConfig.getOversSolrHost());
+        return belongingPlaceJudge.callBelongingPlaceService(weiboSolrTemplate, solrConfig.getWeiboFields(), solrConfig.getWeiboSolrHost());
     }
 
 

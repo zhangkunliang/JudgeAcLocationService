@@ -1,7 +1,6 @@
 package com.fh.crawler.belongingplaceservice.util;
 
 import com.fh.crawler.belongingplaceservice.constant.Numconstant;
-import com.fh.crawler.belongingplaceservice.service.BelongingPlaceJudge;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
@@ -15,7 +14,6 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class SolrToRedisUtil {
@@ -23,7 +21,7 @@ public class SolrToRedisUtil {
         // 构造方法
     }
     long extractTotal = 0;
-    List<String> ids = new ArrayList<>();
+    long extractId = 0;
     private static final Logger LOGGER = LoggerFactory.getLogger(SolrToRedisUtil.class);
 
     public void syncIdsToRedis(SolrTemplate solrTemplate, RedisTemplate<String, String> redisTemplate) {
@@ -55,13 +53,13 @@ public class SolrToRedisUtil {
                     cursorMark = nextCursorMark;
                 }
             }
+
         }
-        LOGGER.info("{}",ids.size());
     }
     private void idsToRedis(SolrDocumentList solrDocumentList,RedisTemplate<String, String> redisTemplate){
         solrDocumentList.forEach(solrDocument->{
-//            ids.add(solrDocument.getFieldValue("id").toString());
-            LOGGER.info("id={}",solrDocument.getFieldValue("id").toString());
+            extractId++;
+            LOGGER.info("第{}条，id={}",extractId,solrDocument.getFieldValue("id").toString());
             redisTemplate.opsForValue().set(solrDocument.getFieldValue("id").toString(),"");
         });
     }

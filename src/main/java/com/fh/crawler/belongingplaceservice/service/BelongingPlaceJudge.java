@@ -139,7 +139,7 @@ public class BelongingPlaceJudge {
             //游标必须指定id排序，同一天内更新时间不强制有序
             solrQuery.setSort("id", SolrQuery.ORDER.asc);
             solrQuery.setRows(Numconstant.N_1000);
-            solrQuery.setFields("id,APPTYPE,MOBILEPHONE,NATIVE_PLACE,INTRODUCTION,RESIDENCE,SIGNATURE,telephone_l,briefintro,address,UPDATE_TIME,updatetime,nextupdatetime,telephone,describe,ipArea,location");
+            solrQuery.setFields("id,APPTYPE,MOBILEPHONE,NATIVE_PLACE,INTRODUCTION,RESIDENCE,SIGNATURE,telephone_l,briefintro,address,UPDATE_TIME,updatetime,lastupdatetime,telephone,describe,ipArea,location");
             // 游标分页（cursorMark）特性进行数据遍历
             String cursorMark = CursorMarkParams.CURSOR_MARK_START;
             boolean done = false;
@@ -388,7 +388,7 @@ public class BelongingPlaceJudge {
                 upt = "UPDATE_TIME";
                 break;
             case CommonConstant.TELEPHONE_L:
-                upt = "nextupdatetime";
+                upt = "lastupdatetime";
                 break;
             case CommonConstant.TELEPHONE:
                 upt = "updatetime";
